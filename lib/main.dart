@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => LoginViewModel(
+          create: (_) => LoginViewModel(
             authRepository: AuthRepositoryImplements(
               authService: AuthApiService(),
             ),

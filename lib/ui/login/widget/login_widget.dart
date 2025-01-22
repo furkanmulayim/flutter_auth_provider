@@ -9,6 +9,7 @@ class _LoginPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.read<LoginViewModel>();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -27,7 +28,8 @@ class _LoginPageView extends StatelessWidget {
             onPressed: () {
               final username = usernameController.text;
               final password = passwordController.text;
-              LoginViewModel(authRepository: AuthRepositoryImplements(authService: AuthApiService())).login(username, password);
+              viewModel.login(username, password);
+              ///LoginViewModel(authRepository: AuthRepositoryImplements(authService: AuthApiService())).login(username, password);
             },
             child: const Text('Login'),
           ),
