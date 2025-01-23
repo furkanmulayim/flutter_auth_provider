@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../common/model/current_auth_model.dart';
+import 'package:flutter_auth_provider/common/model/current_auth_model.dart';
 
 class PersonalInfo extends StatelessWidget {
   final CurrentAuthModel user;

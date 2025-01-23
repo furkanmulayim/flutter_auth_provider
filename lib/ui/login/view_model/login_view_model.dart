@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import '../../../common/entity/user.dart';
-import '../../../common/repository/login_auth/auth_repository.dart';
+import 'package:flutter_auth_provider/common/entity/user.dart';
+import 'package:flutter_auth_provider/common/repository/login_auth/auth_repository.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final AuthRepository authRepository;

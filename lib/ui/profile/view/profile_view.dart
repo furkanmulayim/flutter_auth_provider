@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth_provider/common/model/current_auth_model.dart';
+import 'package:flutter_auth_provider/ui/profile/view_model/profile_view_model.dart';
+import 'package:flutter_auth_provider/ui/profile/widget/personal_info.dart';
+import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   final String accessToken;
@@ -13,6 +17,11 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profileViewModel =
+          Provider.of<ProfileViewModel>(context, listen: false);
+      profileViewModel.getUserData(widget.accessToken);
+    });
   }
 
   @override
@@ -22,16 +31,54 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(); //PersonalInfo(user: currentUser);
+    return Scaffold(
+        appBar: AppBar(
+          leading:
+              IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+          title: const Text('Profile'),
+        ),
+        body: WidgetForSuccessState());
   }
 }
+
+class WidgetForSuccessState extends StatelessWidget {
+  const WidgetForSuccessState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ProfileViewModel>(
+      builder: (context, viewModel, _) {
+        if (viewModel.isLoading) {
+          return WidgetForLoadingState();
+        }
+        if (viewModel.isError) {
+          return WidgetForFailedState();
+        }
+        if (viewModel.isSuccess) {
+          return PersonalInfo(user: viewModel.currentDetail!);
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+}
+
+void forFailedState(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+}
+
+void dene(CurrentAuthModel detail) {}
 
 class WidgetForFailedState extends StatelessWidget {
   const WidgetForFailedState({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('FAİLED STATE'));
+    return const Center(
+      child: Text('HATA'),
+    );
   }
 }
 

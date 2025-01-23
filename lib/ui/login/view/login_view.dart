@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth_provider/core/routes/app_router.dart';
 import 'package:flutter_auth_provider/ui/login/view_model/login_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/routes/app_router.dart';
-
 part '../widget/login_widget.dart';
 
-class LoginView extends StatelessWidget{
+class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   @override
@@ -20,24 +19,25 @@ class LoginView extends StatelessWidget{
         padding: const EdgeInsets.all(16.0),
         child: Consumer<LoginViewModel>(
           builder: (context, viewModel, _) {
-            // Handle loading state
+            // LOADING STATE
             if (viewModel.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            // Handle error state
-            if (viewModel.isError) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _showSnackBar(context, 'Login failed! Please try again.');
-              });
-            }
-            // Handle success state
+
+            // SUCCESS STATE
             if (viewModel.isSuccess) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _goToProfile(context, viewModel.user!.accessToken);
               });
-              return const SizedBox.shrink();
+            }
+
+            // ERROR STATE
+            if (viewModel.isError) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _showSnackBar(context, 'Giriş Basarılı olmadı. ');
+              });
             }
 
             // Default (Login Form)

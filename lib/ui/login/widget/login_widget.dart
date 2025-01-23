@@ -29,7 +29,6 @@ class _LoginPageView extends StatelessWidget {
               final username = usernameController.text;
               final password = passwordController.text;
               viewModel.login(username, password);
-              ///LoginViewModel(authRepository: AuthRepositoryImplements(authService: AuthApiService())).login(username, password);
             },
             child: const Text('Login'),
           ),
