@@ -17,16 +17,20 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final profileViewModel =
-          Provider.of<ProfileViewModel>(context, listen: false);
-      profileViewModel.getUserData(widget.accessToken);
-    });
+    getData();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void getData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profileViewModel =
+          Provider.of<ProfileViewModel>(context, listen: false);
+      profileViewModel.getUserData(widget.accessToken);
+    });
   }
 
   @override
@@ -37,7 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
               IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
           title: const Text('Profile'),
         ),
-        body: WidgetForSuccessState());
+        body: const WidgetForSuccessState());
   }
 }
 
@@ -49,15 +53,15 @@ class WidgetForSuccessState extends StatelessWidget {
     return Consumer<ProfileViewModel>(
       builder: (context, viewModel, _) {
         if (viewModel.isLoading) {
-          return WidgetForLoadingState();
+          return const WidgetForLoadingState();
         }
         if (viewModel.isError) {
-          return WidgetForFailedState();
+          return const WidgetForFailedState();
         }
         if (viewModel.isSuccess) {
           return PersonalInfo(user: viewModel.currentDetail!);
         }
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       },
     );
   }
